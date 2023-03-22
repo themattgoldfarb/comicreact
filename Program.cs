@@ -1,8 +1,12 @@
+using comicreact.api;
+using comicreact.impl;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IFileReader, FileReader>();
 
 var app = builder.Build();
 
