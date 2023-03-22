@@ -18,8 +18,13 @@ public class Comic
         Unknown
     }
 
+    public int? Id { get; set; }
     public string? Title { get; set; }
+    public string? FileName { get; set; }
+    public string? Path { get; set; }
     public string? Description { get; set; }
     public ArchiveType? Archive { get; set; }
+    public IEnumerable<string>? Pages { get; set; }
+    public int? PageCount { get; set; }
 }
 

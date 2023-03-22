@@ -40,6 +40,7 @@ export class Library extends Component {
             <ul>
               <li>{comic.description} </li>
             </ul>
+            <img src={"comic/page/"+comic.title+"/0"}/>
           </li>
           )}
         </ul>

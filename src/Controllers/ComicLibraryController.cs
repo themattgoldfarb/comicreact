@@ -18,10 +18,8 @@ public class ComicLibraryController: ControllerBase
         IFileReader fileReader) => (_logger, _fileReader) = (logger, fileReader);
 
     private IEnumerable<Comic> GetComicsFromDirectory() {
-      return _fileReader.ReadAllFiles(ComicLibraryDirectory).Select(file => new Comic{
-          Title = file,
-          Description = ""
-      });
+      return _fileReader.ReadAllFiles(ComicLibraryDirectory).Select(
+          file => _fileReader.GetComic(file));
     }
 
     [HttpGet]
@@ -48,5 +46,4 @@ public class ComicLibraryController: ControllerBase
         yield return comic;
       }
     }
-
 }
