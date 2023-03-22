@@ -15,8 +15,38 @@ public class FileReader : IFileReader
         return Directory.EnumerateFiles(directory);
     }
 
-    public Comic GetComic(string path, string fileName)
+    private Comic.ArchiveType getArchiveType(string filePathName)
     {
-        throw new NotImplementedException();
+        string extension = Path.GetExtension(filePathName);
+        switch (extension)
+        {
+            case ".zip":
+            case ".cbz":
+                return Comic.ArchiveType.Zip;
+            case ".cbr":
+            case ".rar":
+                return Comic.ArchiveType.Rar;
+            case ".tar":
+                return Comic.ArchiveType.Tar;
+            case ".tar.gz":
+                return Comic.ArchiveType.TarGz;
+            case ".tar.bz2":
+                return Comic.ArchiveType.TarBz2;
+            case ".tar.xz":
+                return Comic.ArchiveType.TarXz;
+            case ".cb7":
+            case ".7z":
+                return Comic.ArchiveType.SevenZip;
+            default:
+                return Comic.ArchiveType.Unknown;
+        }
+    }
+
+    public Comic GetComic(string filePathName)
+    {
+      return new Comic{
+        Title = Path.GetFileNameWithoutExtension(filePathName),
+        Archive = getArchiveType(filePathName)
+      };
     }
 }
