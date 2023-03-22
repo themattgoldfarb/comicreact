@@ -67,7 +67,9 @@ public class FileReader : IFileReader
         Title = Path.GetFileNameWithoutExtension(filePathName),
         FileName = Path.GetFileName(filePathName),
         Path = Path.GetDirectoryName(filePathName),
-        Archive = getArchiveType(filePathName)
+        Archive = getArchiveType(filePathName),
+        Description = "This comic doesn't have a description..."
+
       };
 
       // If the archive type is unknown, we can't extract the comic.

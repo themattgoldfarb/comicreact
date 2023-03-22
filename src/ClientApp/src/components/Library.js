@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import './Library.css';
 
 export class Library extends Component {
 
@@ -31,20 +36,27 @@ export class Library extends Component {
 
   static renderLibrary(comicLibrary) {
     return (
-      <div>
-        <h3>My Comics</h3>
-        <ul>
+      <Container fluid style={{ gap: '10px' }}>
+        <Row>
           {comicLibrary.map(comic =>
-          <li>
-             Title: {comic.title} 
-            <ul>
-              <li>{comic.description} </li>
-            </ul>
-            <img src={"comic/page/"+comic.title+"/0"}/>
-          </li>
+          <Col style={{ gap: '10px' }}>
+            <Card 
+              className="bubble-text"
+              bg="dark"
+              text="white"
+              style={{ gap: '10px', height: '18rem', width: '12rem' }}>
+            <Card.Img src={"comic/page/"+comic.title+"/0"}/>
+            <Card.ImgOverlay>
+              <Card.Text> {comic.title} </Card.Text>
+              <Card.Text
+                style={{position: 'absolute', bottom: 0}}
+              > {comic.description} </Card.Text>
+            </Card.ImgOverlay>
+          </Card>
+          </Col>
           )}
-        </ul>
-      </div>
+        </Row>
+      </Container>
     );
   }
 
