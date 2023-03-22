@@ -1,4 +1,4 @@
-namespace comicreact.api;
+namespace src.api;
 
 // Interface for reading from filesystem.
 public interface IFileReader

@@ -1,6 +1,7 @@
-namespace comicreact.impl;
+namespace src.impl;
 
-using comicreact.api;
+using src.api;
+using src.api.entities;
 
 // Implementation of FileReader.
 //

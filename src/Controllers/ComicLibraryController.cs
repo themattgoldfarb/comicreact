@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using comicreact.api.entities;
-using comicreact.api;
+using src.api.entities;
+using src.api;
 
-namespace comicreact.Controllers;
+namespace src.Controllers;
 
 [ApiController]
 [Route("[controller]")]

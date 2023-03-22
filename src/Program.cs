@@ -1,5 +1,5 @@
-using comicreact.api;
-using comicreact.impl;
+using src.api;
+using src.impl;
 
 var builder = WebApplication.CreateBuilder(args);
 

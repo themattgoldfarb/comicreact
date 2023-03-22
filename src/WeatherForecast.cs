@@ -1,4 +1,4 @@
-namespace comicreact {
+namespace src {
 
 public class WeatherForecast
 {

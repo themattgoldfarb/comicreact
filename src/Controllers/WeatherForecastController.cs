@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace comicreact.Controllers;
+namespace src.Controllers;
 
 [ApiController]
 [Route("[controller]")]
