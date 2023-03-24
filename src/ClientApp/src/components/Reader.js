@@ -1,10 +1,6 @@
-import React, { setState } from 'react';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import './Library.css';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import './Reader.css';
 
 export async function loader({params}) {
     const response = await fetch('comic/getcomic/'+params.title);
@@ -13,24 +9,40 @@ export async function loader({params}) {
   }
 
 function Page(props) {
-  return <img src={"comic/page/"+props.comicbook.title+"/"+props.page}/>;
+  if (props.page === props.currentPage) {
+    return <img class="current" 
+                src={"comic/page/"+props.comicbook.title+"/"+props.page}/>;
+  }
+  return <img class="hidden"
+              src={"comic/page/"+props.comicbook.title+"/"+props.page}/>;
 }
 
 
 export function Reader() {
   const {comicbook} = useLoaderData();
+  const [current, setCurrent] = useState({page: 0});
 
   //const comicbook = { title: "test" };
   const renderPages = (pageCount) => {
     let pages = [];
     for (let i = 0; i < pageCount; i++) {
-      pages.push(<Page comicbook={comicbook} page={i}/>);
+      pages.push(<Page comicbook={comicbook} page={i} currentPage={current.page}/>);
     }
     return pages;
   }
+
+  const nextPage = () => {
+    if (current.page < comicbook.pageCount) {
+      setCurrent({page: current.page+1});
+    } else {
+      setCurrent({page: 0});
+    }
+  }
   
   return (
-    <div> 
+    <div 
+      onClick={nextPage}
+    >
       Hello 
       {comicbook.title}
       {renderPages(comicbook.pageCount)}
