@@ -1,4 +1,43 @@
 .bubble-text {
-    color: #fff;
-    text-shadow: 2px 0 0 #000, 0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000;
+}
+
+.library-container {
+  gap: 2rem;
+  display: flex;
+}
+
+.library-container .card-img {
+  height: 18rem;
+  width: 100%;
+}
+
+.library-container .card-title {
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.library-container .card-text {
+  font-size: .75rem;
+  height: 2rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+}
+
+.library-row {
+}
+
+.library-card {
+    width: 12rem;
+    min-height: 18rem;
+    min-width: 12rem;
+    font-size: .75rem;
+}
+
+.wrap {
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
 }

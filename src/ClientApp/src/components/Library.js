@@ -36,27 +36,22 @@ export class Library extends Component {
 
   static renderLibrary(comicLibrary) {
     return (
-      <Container fluid style={{ gap: '10px' }}>
-        <Row>
-          {comicLibrary.map(comic =>
-          <Col style={{ gap: '10px' }}>
+      <Container fluid className="library-container wrap">
+        {comicLibrary.map(comic =>
+          <div>
             <Card 
-              className="bubble-text"
-              bg="dark"
-              text="white"
-              style={{ gap: '10px', height: '18rem', width: '12rem' }}>
-            <Card.Img src={"comic/page/"+comic.title+"/0"}/>
-            <Card.ImgOverlay>
-              <Card.Text> {comic.title} </Card.Text>
-              <Card.Text
-                style={{position: 'absolute', bottom: 0}}
-              > {comic.description} </Card.Text>
-            </Card.ImgOverlay>
-          </Card>
-          </Col>
+                className="bubble-text library-card"
+                bg="dark"
+                text="white">
+              <Card.Img src={"comic/page/"+comic.title+"/0"}/>
+              <Card.Body>
+                <Card.Title> {comic.title} </Card.Title>
+                <Card.Text> {comic.description} </Card.Text>
+              </Card.Body>
+            </Card>
+          </div>
           )}
-        </Row>
-      </Container>
+        </Container>
     );
   }
 
@@ -67,8 +62,6 @@ export class Library extends Component {
 
     return (
       <div>
-        <h1 id="tabelLabel"> Library</h1>
-        <p> This is the library!!!! </p>
         {contents}
       </div>
     );
