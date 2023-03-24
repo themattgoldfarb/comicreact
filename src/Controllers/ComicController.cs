@@ -19,20 +19,26 @@ public class ComicController: ControllerBase
     return "Hello World!";
   }
 
+  [HttpGet("getcomic/{comicName}")]
+  public Comic GetComic(string comicName)
+  {
+    List<Comic> comics = _fileReader.ReadAllFiles(ComicLibraryDirectory)
+      .Select(file => _fileReader.GetComic(file)).ToList();
+    if (!comics.Any(comic => comic.Title == comicName)) {
+      return new Comic();
+    }
+    return comics.First(comic => comic.Title == comicName);
+  }
+
   [HttpGet("page/{comicName}/{pageNumber}")]
   public FileContentResult GetPage(string comicName, int pageNumber)
   {
-    IEnumerable<Comic> comics = _fileReader.ReadAllFiles(ComicLibraryDirectory)
-      .Select(file => _fileReader.GetComic(file));
+    List<Comic> comics = _fileReader.ReadAllFiles(ComicLibraryDirectory)
+      .Select(file => _fileReader.GetComic(file)).ToList();
     if (!comics.Any(comic => comic.Title == comicName)) {
       return File(new byte[0], "image/jpeg");
     }
-    Comic comic = _fileReader.ReadAllFiles(ComicLibraryDirectory).Select(
-        file => _fileReader.GetComic(file)).First(
-            comic => comic.Title == comicName);
-    Console.WriteLine("comic: " + comicName);
-    if (comic == null) {
-    }
+    Comic comic = comics.First(comic => comic.Title == comicName);
 
     return File(_fileReader.GetPage(comic, pageNumber), "image/jpeg");
   }

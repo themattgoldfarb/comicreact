@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
 import './Library.css';
 
 export class Library extends Component {
@@ -27,28 +28,23 @@ export class Library extends Component {
     );
   }
 
-  static renderComic(comic) {
-    <li>
-      Title: {comic.Title}
-      Description: {comic.Description}
-    </li>
-  }
-
   static renderLibrary(comicLibrary) {
     return (
       <Container fluid className="library-container wrap">
         {comicLibrary.map(comic =>
-          <div>
-            <Card 
-                className="bubble-text library-card"
-                bg="dark"
-                text="white">
-              <Card.Img src={"comic/page/"+comic.title+"/0"}/>
-              <Card.Body>
-                <Card.Title> {comic.title} </Card.Title>
-                <Card.Text> {comic.description} </Card.Text>
-              </Card.Body>
-            </Card>
+          <div key={comic.title}>
+            <Link to={"/reader/"+comic.title}>
+              <Card 
+                  className="bubble-text library-card"
+                  bg="dark"
+                  text="white">
+                <Card.Img src={"comic/page/"+comic.title+"/0"}/>
+                <Card.Body>
+                  <Card.Title> {comic.title} </Card.Title>
+                  <Card.Text> {comic.description} </Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
           </div>
           )}
         </Container>
