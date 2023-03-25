@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import useEventListener from "@use-it/event-listener";
+import {Container} from 'react-bootstrap';
 import './Reader.css';
 
 export async function loader({params}) {
@@ -8,89 +10,115 @@ export async function loader({params}) {
     return {comicbook};
   }
 
+const useKeyDown = (actions) => {
+  useEventListener("keydown", (event) => {
+    switch (event.key) {
+      case "ArrowLeft":
+        actions.prevPage();
+        break;
+      case "ArrowRight":
+        actions.nextPage();
+        break;
+      case "h":
+        actions.changeFit("height");
+        break;
+      case "w":
+        actions.changeFit("width");
+        break;
+      case "b":
+        actions.changeFit("both");
+        break;
+      case "s":
+        actions.changeDisp("single");
+        break;
+      case "d":
+        actions.changeDisp("double");
+        break;
+      default:
+        break;
+    }
+  });
+}
+
+
 function Page(props) {
-  if (props.page === props.currentPage) {
-    return <img class="current" 
-                src={"comic/page/"+props.comicbook.title+"/"+props.page}/>;
+  let vis=props.page === props.currentPage ? "current" : "hidden";
+  if (props.disp === "double" && props.page === props.currentPage + 1) {
+    vis = "second";
   }
-  return <img class="hidden"
+
+  let classes = vis + " fit-"+props.fit;
+  if (props.fit === "height") {
+    classes += " flex-grow-1";
+  }
+  return <img class={classes} 
               src={"comic/page/"+props.comicbook.title+"/"+props.page}/>;
 }
 
 
 export function Reader() {
   const {comicbook} = useLoaderData();
-  const [current, setCurrent] = useState({page: 0});
+  const [current, setCurrent] = useState({
+    page: 0,
+    fit: "both",
+    disp: "single"
+  });
 
-  //const comicbook = { title: "test" };
   const renderPages = (pageCount) => {
     let pages = [];
     for (let i = 0; i < pageCount; i++) {
-      pages.push(<Page comicbook={comicbook} page={i} currentPage={current.page}/>);
+      pages.push(
+        <Page comicbook={comicbook}
+              page={i}
+              fit={current.fit}
+              disp={current.disp}
+              currentPage={current.page}/>);
     }
     return pages;
   }
 
-  const nextPage = () => {
-    if (current.page < comicbook.pageCount) {
-      setCurrent({page: current.page+1});
-    } else {
-      setCurrent({page: 0});
+  const actions = {
+    nextPage: () => {
+      setCurrent({
+        page: current.page < comicbook.pageCount ? current.page + 1 : 0,
+        fit: current.fit,
+        disp: current.disp
+      });
+    },
+    prevPage: () => {
+      setCurrent({
+        page: current.page > 0 ? current.page - 1 : comicbook.pageCount,
+        fit: current.fit,
+        disp: current.disp
+      });
+    },
+    changeFit: (newfit) => {
+      setCurrent({
+        page: current.page,
+        fit: newfit,
+        disp: current.disp
+      });
+    },
+    changeDisp: (newdisp) => {
+      setCurrent({
+        page: current.page,
+        fit: current.fit,
+        disp: newdisp
+      });
     }
-  }
+  };
+
+  const key = useKeyDown(actions);
   
   return (
-    <div 
-      onClick={nextPage}
-    >
-      Hello 
-      {comicbook.title}
-      {renderPages(comicbook.pageCount)}
+    <div>
+      <Container 
+          fluid 
+          className={"reader-container cont-"+current.disp}
+          onClick={actions.nextPage} >
+        {renderPages(comicbook.pageCount)}
+      </Container>
     </div>
     
   );
-
-
-  //constructor (props) {
-    //super(props);
-    //comic = useLoaderData();
-    //this.state = { 
-      //title: this.props.value,
-      //comic: [],
-      //loading: true,
-    //};
-  //}
-
-  //componentDidMount() {
-    //this.populateComic();
-  //}
-
-  //static renderLoading() {
-    //return (
-      //<div>
-      //this.state.title
-        //<h3>Loading... </h3>
-      //</div>
-    //);
-  //}
-
-  //static renderComic(comic) {
-    //<div>
-
-      //this.state.title
-    //</div>
-  //}
-
-  //render() {
-    //let contents = this.state.loading
-      //? Reader.renderLoading()
-      //: Reader.renderComic(this.state.comic);
-
-    //return (
-      //<div>
-        //{contents}
-      //</div>
-    //);
-  //}
-
 }

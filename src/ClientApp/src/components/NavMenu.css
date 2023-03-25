@@ -5,6 +5,11 @@
   color: #fff;
 }
 
+.navopen .navbar {
+  height: 3rem; 
+}
+
+
 html {
   font-size: 14px;
 }
