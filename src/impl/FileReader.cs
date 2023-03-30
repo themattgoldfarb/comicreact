@@ -168,7 +168,7 @@ public class FileReader : IFileReader
       {
         using (var img = Image.Load(ms))
         {
-          img.Mutate(x => x.Resize(300, 200));
+          img.Mutate(x => x.Resize(200, 300));
           using (var ms2 = new MemoryStream())
           {
             img.SaveAsJpeg(ms2);
