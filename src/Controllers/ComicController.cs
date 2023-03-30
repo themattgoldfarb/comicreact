@@ -19,28 +19,35 @@ public class ComicController: ControllerBase
     return "Hello World!";
   }
 
-  [HttpGet("getcomic/{comicName}")]
-  public Comic GetComic(string comicName)
+  private Comic getComicByName(string comicName)
   {
-    List<Comic> comics = _fileReader.ReadAllFiles(ComicLibraryDirectory)
-      .Select(file => _fileReader.GetComic(file)).ToList();
+    List<Comic> comics = _fileReader.ReadAllComics(ComicLibraryDirectory).ToList();
     if (!comics.Any(comic => comic.Title == comicName)) {
       return new Comic();
     }
     return comics.First(comic => comic.Title == comicName);
   }
 
+  [HttpGet("getcomic/{comicName}")]
+  public Comic GetComic(string comicName)
+  {
+    return getComicByName(comicName);
+  }
+
   [HttpGet("page/{comicName}/{pageNumber}")]
   public FileContentResult GetPage(string comicName, int pageNumber)
   {
-    List<Comic> comics = _fileReader.ReadAllFiles(ComicLibraryDirectory)
-      .Select(file => _fileReader.GetComic(file)).ToList();
-    if (!comics.Any(comic => comic.Title == comicName)) {
-      return File(new byte[0], "image/jpeg");
-    }
-    Comic comic = comics.First(comic => comic.Title == comicName);
+    Comic comic = getComicByName(comicName);
 
     return File(_fileReader.GetPage(comic, pageNumber), "image/jpeg");
+  }
+
+  [HttpGet("thumb/{comicName}/{pageNumber}")]
+  public FileContentResult GetThumbnail(string comicName, int pageNumber)
+  {
+    Comic comic = getComicByName(comicName);
+
+    return File(_fileReader.GetThumbnail(comic, pageNumber), "image/jpeg");
   }
 
   

@@ -38,7 +38,7 @@ export class Library extends Component {
                   className="bubble-text library-card"
                   bg="dark"
                   text="white">
-                <Card.Img src={"comic/page/"+comic.title+"/0"}/>
+                <Card.Img src={"comic/thumb/"+comic.title+"/0"}/>
                 <Card.Body>
                   <Card.Title> {comic.title} </Card.Title>
                   <Card.Text> {comic.description} </Card.Text>
