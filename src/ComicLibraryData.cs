@@ -1,8 +1,6 @@
-namespace src {
+namespace src;
 
-public class ComicLibraryData 
+public class ComicLibraryData
 {
-  public string? Title { get; set; }
-}
-
+    public string? Title { get; set; }
 }

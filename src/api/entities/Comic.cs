@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace src.api.entities;
 
 // A Comic containing a title and description.
@@ -8,7 +10,7 @@ public class Comic
     // This is used to determine how to extract the comic from the archive.
     public enum ArchiveType
     {
-        Zip, 
+        Zip,
         Rar,
         Tar,
         TarGz,
